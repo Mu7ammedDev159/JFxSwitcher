@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import org.onyxfx.fx.controls.OFxButton?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.onyxfx.TestController">
+   <children>
+      <Pane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <VBox alignment="TOP_CENTER">
+               <children>
+                  <Label alignment="TOP_CENTER" text="Label" />
+                </children>
+            </VBox>
+            <OFxButton focusedByDefault="true" focusedColor="#5df222" hoverColor="#ababab" layoutX="125.0" layoutY="83.0" normalColor="#334757" prefHeight="234.0" prefWidth="356.0" pressedColor="#6289a8" />
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

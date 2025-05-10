@@ -26,13 +26,13 @@
       <dependency>
         <groupId>org.openjfx</groupId>
         <artifactId>javafx-controls</artifactId>
-        <version>17.0.2</version> <!-- Replace with the version you need -->
+        <version>21.0.2</version> <!-- Replace with the version you need -->
       </dependency>
 
       <dependency>
         <groupId>org.openjfx</groupId>
         <artifactId>javafx-fxml</artifactId>
-        <version>17.0.2</version> <!-- Replace with the version you need -->
+        <version>21.0.2</version> <!-- Replace with the version you need -->
       </dependency>
 
       <dependency>
@@ -42,4 +42,16 @@
       </dependency>
 
   </dependencies>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>9</source>
+          <target>9</target>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 </project>
