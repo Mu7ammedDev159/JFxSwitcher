@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.onyxfx.graphics.fx.layout;
+package org.onyxfx.graphics.layout;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;

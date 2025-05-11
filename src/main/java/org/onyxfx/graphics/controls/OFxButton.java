@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.onyxfx.graphics.fx.controls;
+package org.onyxfx.graphics.controls;
 
 import javafx.beans.property.*;
 import javafx.css.*;

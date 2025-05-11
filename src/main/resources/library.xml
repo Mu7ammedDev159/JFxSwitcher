@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Library>
-    <Component class="org.onyxfx.graphics.fx.controls.OFxButton">
+    <Component class="org.onyxfx.graphics.controls.OFxButton">
         <Property name="normalColor" category="Appearance"/>
         <Property name="hoverColor" category="Appearance"/>
         <Property name="pressedColor" category="Appearance"/>
