@@ -10,6 +10,21 @@
   <name>ofx-graphics</name>
   <url>http://maven.apache.org</url>
 
+  <repositories>
+    <repository>
+      <id>github</id>
+      <url>https://maven.pkg.github.com/Mu7ammedDev159/OnyxFx-Graphics</url>
+    </repository>
+  </repositories>
+
+  <distributionManagement>
+    <repository>
+      <id>github</id>
+      <name>Github Packages</name>
+      <url>https://maven.pkg.github.com/Mu7ammedDev159/OnyxFx-Graphics</url>
+    </repository>
+  </distributionManagement>
+
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
