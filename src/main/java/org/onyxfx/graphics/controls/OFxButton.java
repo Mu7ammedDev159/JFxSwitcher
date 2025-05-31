@@ -1,6 +1,6 @@
 
 /*
- * Copyright (c) [2025] [Muhammed Joharji]
+ * Copyright (c) [2025] [MuhammedTJ]
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,7 +39,7 @@ import java.util.List;
  * A Button class that is customizable to support enhanced styling features.
  * It allows dynamic configuration of visual states such as normal, hover, pressed, and focused colors via properties.
  *
- * @author Muhammed Joharji
+ * @author MuhammedTJ
  * @version 1.0
  * @since 2025
  *

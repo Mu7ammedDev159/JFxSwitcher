@@ -1,0 +1,35 @@
+.expandable-list-section > .title > .arrow-button {
+    -fx-shape: ""; /* remove triangle */
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+    -fx-opacity: 0; /* completely hides it */
+    -fx-min-width: 0;
+    -fx-max-width: 0;
+}
+
+.expandable-list-section {
+    -fx-background-color: transparent;
+}
+
+.expandable-list-section > .title {
+    -fx-padding: 8 12;
+    -fx-background-color: transparent;
+}
+
+.expandable-list-section:hover > .title {
+    -fx-background-color: #2b2d31; /* hover color */
+}
+
+.expandable-list-section.underline-visible > .title {
+    -fx-border-color: transparent transparent #444 transparent;
+    -fx-border-width: 0 0 1px 0;
+}
+
+.expandable-list-section > .title > .arrow-button {
+    -fx-shape: "";
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+    -fx-opacity: 0;
+    -fx-min-width: 0;
+    -fx-max-width: 0;
+}
