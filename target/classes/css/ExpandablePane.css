@@ -12,7 +12,8 @@
 }
 
 .expandable-list-section > .title {
-    -fx-padding: 8 12;
+    -fx-padding: 0 0 4; /* Remove left/right padding */
+    -fx-background-insets: 0;
     -fx-background-color: transparent;
 }
 
@@ -32,4 +33,19 @@
     -fx-opacity: 0;
     -fx-min-width: 0;
     -fx-max-width: 0;
+}
+
+.title-label {
+    -fx-text-fill: inherit;
+}
+
+.expandable-list-section .arrow-icon {
+    -fx-padding: 0 12 0 0;
+    -fx-opacity: 0.8;
+}
+
+.expandable-list-section > .content {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-padding: 0; /* optional: remove inner spacing */
 }
