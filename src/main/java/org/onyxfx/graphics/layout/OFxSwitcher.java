@@ -1,6 +1,6 @@
 
 /*
- * Copyright (c) [2025] [Muhammed Joharji]
+ * Copyright (c) [2025] [MuhammedTJ]
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,10 +23,13 @@ import javafx.scene.Node;
 import javafx.scene.layout.StackPane;
 
 /**
+ *
+ * @ONYX-FX
+ *
  * A class for managing switchable views,
  * acting as an index to switch between nodes and javafx controls or elements.
  *
- * @author Muhammed Joharji
+ * @author MuhammedTJ
  * @version 1.0
  * @since 2025
  *

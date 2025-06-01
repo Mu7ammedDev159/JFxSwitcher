@@ -7,6 +7,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="ofx-graphics" />
+        <module name="jfx-switcher" />
       </profile>
     </annotationProcessing>
   </component>
