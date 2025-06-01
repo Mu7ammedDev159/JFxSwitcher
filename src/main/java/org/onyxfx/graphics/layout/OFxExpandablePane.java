@@ -22,6 +22,9 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.util.Duration;
 
+import java.io.File;
+import java.net.URI;
+
 public class OFxExpandablePane extends VBox {
 
     private static final PseudoClass UNDERLINE_VISIBLE = PseudoClass.getPseudoClass("underline-visible");
@@ -59,33 +62,32 @@ public class OFxExpandablePane extends VBox {
         arrowIcon.fitHeightProperty().bind(arrowIconHeight);
         arrowIcon.setPreserveRatio(true);
         arrowIcon.setSmooth(true);
-        // REMOVE any binding like: arrowIcon.imageProperty().bind(arrowImage);
 
-        Platform.runLater(() -> {
-            Image img = arrowImage.get();
-            if (img != null) {
-                arrowIcon.setImage(img);
-                System.out.println("Arrow Image set on ImageView: " + img);
-            } else {
-                System.out.println("Arrow Image was null on runLater.");
+        arrowImage.addListener((obs, oldImg, newImg) -> {
+            if (newImg != null) {
+                arrowIcon.setImage(newImg);
+                System.out.println("🖼 arrowImage set: " + newImg.getUrl());
+                if (newImg.getException() != null) newImg.getException().printStackTrace();
             }
         });
 
+        arrowImage.addListener((obs, old, img) -> {
+            arrowIcon.setImage(img);
+            System.out.println("🖼 arrowImage set: " + (img != null ? img.getUrl() : "null"));
+            if (img != null && img.getException() != null) {
+                img.getException().printStackTrace();
+            }
+        });
 
-// Also listen for any later changes
-        arrowImage.addListener((obs, oldImg, newImg) -> {
-            arrowIcon.setImage(newImg);
-            System.out.println("Arrow Image changed: " + newImg);
+        Platform.runLater(() -> {
+            if (arrowImage.get() != null) {
+                arrowIcon.setImage(arrowImage.get());
+                System.out.println("✔ Runtime image from FXML: " + arrowImage.get().getUrl());
+            }
         });
 
         arrowIcon.setVisible(true);
         arrowIcon.setManaged(true);
-        arrowIcon.setOpacity(1);
-
-        // Initialize immediately if non-null
-        if (arrowImage.get() != null) {
-            arrowIcon.setImage(arrowImage.get());
-        }
         arrowIcon.setOpacity(0.8);
         arrowIcon.setRotate(0);
 
@@ -97,28 +99,25 @@ public class OFxExpandablePane extends VBox {
                         headerBox.isHover() ? hoverColor.get() : textFill.get(),
                 headerBox.hoverProperty(), hoverColor, textFill));
 
-        arrowIcon.effectProperty().bind(Bindings.createObjectBinding(() ->
-                        new Blend(
-                                BlendMode.SRC_ATOP,
-                                null,
-                                new ColorInput(0, 0, arrowIcon.getFitWidth(), arrowIcon.getFitHeight(),
-                                        (Color) (headerBox.isHover() ? hoverColor.get() : arrowTint.get()))
-                        ),
-                headerBox.hoverProperty(), hoverColor, arrowTint,
-                arrowIcon.fitWidthProperty(), arrowIcon.fitHeightProperty()
-        ));
+        arrowIcon.effectProperty().bind(Bindings.createObjectBinding(() -> {
+                    double width = arrowIcon.getFitWidth();
+                    double height = arrowIcon.getFitHeight();
+                    Color tint = (Color) (headerBox.isHover() ? hoverColor.get() : arrowTint.get());
+
+                    return new Blend(
+                            BlendMode.SRC_ATOP,
+                            null,
+                            new ColorInput(0, 0, width, height, tint)
+                    );
+                }, headerBox.hoverProperty(), hoverColor, arrowTint,
+                arrowIcon.fitWidthProperty(), arrowIcon.fitHeightProperty()));
 
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
-
         headerBox.getChildren().addAll(titleLabel, spacer, arrowIcon);
         headerBox.setAlignment(Pos.CENTER_LEFT);
         headerBox.setPadding(new Insets(6, 8, 6, 8));
-
-        headerBox.setOnMouseClicked(e -> {
-            boolean willExpand = !isExpanded();
-            setExpanded(willExpand);
-        });
+        headerBox.setOnMouseClicked(e -> setExpanded(!isExpanded()));
 
         underline.setHeight(1);
         underline.visibleProperty().bind(underlineVisible);
@@ -126,7 +125,6 @@ public class OFxExpandablePane extends VBox {
         underline.widthProperty().bind(headerBox.widthProperty());
 
         VBox underlineBox = new VBox(headerBox, underline);
-
         getChildren().add(underlineBox);
 
         getChildren().addListener((ListChangeListener<Node>) change -> {
@@ -142,23 +140,31 @@ public class OFxExpandablePane extends VBox {
             }
         });
 
-        expanded.addListener((obs, wasExpanded, isNowExpanded) -> {
-            if (isAnimated()) animateArrow(isNowExpanded);
-            else arrowIcon.setRotate(isNowExpanded ? 90 : 0);
+        expanded.addListener((obs, oldVal, newVal) -> {
+            if (isAnimated()) animateArrow(newVal);
+            else arrowIcon.setRotate(newVal ? 90 : 0);
         });
 
         underlineVisible.addListener((obs, oldVal, newVal) -> pseudoClassStateChanged(UNDERLINE_VISIBLE, newVal));
         pseudoClassStateChanged(UNDERLINE_VISIBLE, underlineVisible.get());
+    }
 
-        System.out.println("Arrow Icon Debug:");
-        System.out.println("  Visible: " + arrowIcon.isVisible());
-        System.out.println("  Managed: " + arrowIcon.isManaged());
-        System.out.println("  Width: " + arrowIcon.getFitWidth());
-        System.out.println("  Height: " + arrowIcon.getFitHeight());
-        System.out.println("  Bounds: " + arrowIcon.getBoundsInParent());
-        System.out.println("  Image: " + arrowIcon.getImage());
-
-        arrowIcon.setStyle("-fx-border-color: red; -fx-border-width: 1px;");
+    private void loadImageFromUrl(String url) {
+        try {
+            Image img;
+            if (url.startsWith("@")) {
+                img = new Image(getClass().getResource(url.substring(1)).toExternalForm());
+            } else if (url.startsWith("file:/") || new File(url).exists()) {
+                img = new Image(new File(url).toURI().toURL().toExternalForm());
+            } else {
+                System.err.println("❌ Invalid image path: " + url);
+                return;
+            }
+            arrowIcon.setImage(img);
+        } catch (Exception e) {
+            System.err.println("❌ Failed to load image from url: " + url);
+            e.printStackTrace();
+        }
     }
 
     private void animateArrow(boolean expand) {
@@ -168,38 +174,49 @@ public class OFxExpandablePane extends VBox {
         rotate.play();
     }
 
+    // Properties
     public void expand() { setExpanded(true); }
     public void collapse() { setExpanded(false); }
     public boolean isExpanded() { return expanded.get(); }
     public void setExpanded(boolean value) { expanded.set(value); }
     public BooleanProperty expandedProperty() { return expanded; }
+
     public boolean isUnderlineVisible() { return underlineVisible.get(); }
     public void setUnderlineVisible(boolean value) { underlineVisible.set(value); }
     public BooleanProperty underlineVisibleProperty() { return underlineVisible; }
+
     public Image getArrowImage() { return arrowImage.get(); }
     public void setArrowImage(Image image) { this.arrowImage.set(image); }
     public ObjectProperty<Image> arrowImageProperty() { return arrowImage; }
+
     public double getArrowIconWidth() { return arrowIconWidth.get(); }
     public void setArrowIconWidth(double width) { this.arrowIconWidth.set(width); }
     public DoubleProperty arrowIconWidthProperty() { return arrowIconWidth; }
+
     public double getArrowIconHeight() { return arrowIconHeight.get(); }
     public void setArrowIconHeight(double height) { this.arrowIconHeight.set(height); }
     public DoubleProperty arrowIconHeightProperty() { return arrowIconHeight; }
+
     public String getText() { return text.get(); }
     public void setText(String value) { text.set(value); }
     public StringProperty textProperty() { return text; }
+
     public Font getFont() { return font.get(); }
     public void setFont(Font value) { font.set(value); }
     public ObjectProperty<Font> fontProperty() { return font; }
+
     public Paint getTextFill() { return textFill.get(); }
     public void setTextFill(Paint value) { textFill.set(value); }
     public ObjectProperty<Paint> textFillProperty() { return textFill; }
+
     public Paint getArrowTint() { return arrowTint.get(); }
     public void setArrowTint(Paint value) { arrowTint.set(value); }
     public ObjectProperty<Paint> arrowTintProperty() { return arrowTint; }
+
     public Paint getHoverColor() { return hoverColor.get(); }
     public void setHoverColor(Paint value) { hoverColor.set(value); }
     public ObjectProperty<Paint> hoverColorProperty() { return hoverColor; }
+
     public boolean isAnimated() { return animated.get(); }
     public void setAnimated(boolean value) { animated.set(value); }
     public BooleanProperty animatedProperty() { return animated; }
