@@ -1,12 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.paint.Color?>
+<?import org.onyxfx.graphics.controls.OFxAvatarView?>
+<?import org.onyxfx.graphics.layout.OFxExpandablePane?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.onyxfx.graphics.HelloController">
+<HBox alignment="TOP_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="55.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label fx:id="welcomeText" layoutX="218.0" layoutY="80.0" prefHeight="32.0" prefWidth="165.0" text="Welcome" />
-      <Button layoutX="211.0" layoutY="169.0" mnemonicParsing="false" onAction="#onHelloButtonClick" prefHeight="63.0" prefWidth="179.0" text="Button" />
+
+      <HBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS" />
+      <OFxAvatarView fitHeight="30.0" fitWidth="30.0">
+         <backgroundColor>
+            <Color red="0.5504792332649231" green="0.6578947305679321" blue="0.37768030166625977" />
+         </backgroundColor>
+         <image>
+            <Image url="@../../../../Chatcord/src/main/resources/images/icons/community.png" />
+         </image>
+      </OFxAvatarView>
+      <OFxExpandablePane arrowIconHeight="13.0" arrowIconWidth="13.0" arrowTint="#432020" prefHeight="55.0" prefWidth="162.0" text="fdsfsdf" textFill="#574747">
+         <arrowImage>
+            <Image url="@../../../../Chatcord/src/main/resources/images/icons/icons8-forward-50.png" />
+         </arrowImage>
+      </OFxExpandablePane>
+      <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+         <ImageView fitHeight="12.0" fitWidth="12.0" pickOnBounds="true" preserveRatio="true">
+         </ImageView>
+      </HBox>
    </children>
-</AnchorPane>
+</HBox>

@@ -9,6 +9,7 @@ org\onyxfx\graphics\HelloController.class
 org\onyxfx\graphics\controls\OFxButton$3.class
 org\onyxfx\graphics\controls\OFxButton$StyleableProperties$3.class
 org\onyxfx\graphics\controls\OFxButton$StyleableProperties.class
+org\onyxfx\graphics\controls\OFxAvatarView.class
 org\onyxfx\graphics\layout\OFxSwitcher.class
 org\onyxfx\graphics\controls\OFxButton$4.class
 org\onyxfx\graphics\controls\OFxButton$StyleableProperties$2.class
