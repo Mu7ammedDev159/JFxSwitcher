@@ -1,26 +1,10 @@
-
-/*
- * Copyright (c) [2025] [@MuhammedTJ]
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package org.onyxfx.graphics.layout;
 
 import javafx.animation.RotateTransition;
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.*;
-import javafx.collections.ObservableList;
+import javafx.collections.ListChangeListener;
 import javafx.css.PseudoClass;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -38,118 +22,73 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.util.Duration;
 
-/**
- *
- * @ONYX-FX
- *
- * `OFxExpandablePane` is a custom expandable pane built on top of JavaFX {@link VBox}.
- * It mimics behavior similar to Discord's expandable server/channel sections,
- * featuring a customizable header, arrow icon rotation, and dynamic content visibility.
- *
- * @author MuhammedTJ
- * @version 1.1
- * @since 2025
- *
- * <p>This component supports features like hover color, arrow tint, custom title font,
- * text fill, and optional animation during expand/collapse.</p>
- *
- * <p>Usage example:</p>
- * <pre>
- *     OFxExpandablePane pane = new OFxExpandablePane("My Section", new Label("Child Node"));
- *     pane.setArrowImage(new Image("arrow.png"));
- * </pre>
- *
- *
- *
- */
 public class OFxExpandablePane extends VBox {
 
-    /** Pseudo class for controlling underline visibility in CSS. */
     private static final PseudoClass UNDERLINE_VISIBLE = PseudoClass.getPseudoClass("underline-visible");
 
-    /** Controls whether the underline beneath the title is shown. */
     private final BooleanProperty underlineVisible = new SimpleBooleanProperty(this, "underlineVisible", true);
-
-    /** Image property for the arrow icon. */
     private final ObjectProperty<Image> arrowImage = new SimpleObjectProperty<>();
-
-    /** Width property of the arrow icon. */
     private final DoubleProperty arrowIconWidth = new SimpleDoubleProperty(this, "arrowIconWidth", 10);
-
-    /** Height property of the arrow icon. */
     private final DoubleProperty arrowIconHeight = new SimpleDoubleProperty(this, "arrowIconHeight", 10);
-
-    /** Whether the pane is currently expanded (i.e., content is visible). */
     private final BooleanProperty expanded = new SimpleBooleanProperty(false);
-
-    /** Title text of the pane. */
     private final StringProperty text = new SimpleStringProperty(this, "text", "Title");
-
-    /** Font used for the title label. */
     private final ObjectProperty<Font> font = new SimpleObjectProperty<>(Font.getDefault());
-
-    /** Text color of the title. */
     private final ObjectProperty<Paint> textFill = new SimpleObjectProperty<>(Color.WHITE);
-
-    /** Tint color applied to the arrow icon. */
     private final ObjectProperty<Paint> arrowTint = new SimpleObjectProperty<>(Color.WHITE);
-
-    /** Hover color used for both the title and arrow. */
     private final ObjectProperty<Paint> hoverColor = new SimpleObjectProperty<>(Color.LIGHTGRAY);
-
-    /** Whether the arrow icon rotation is animated. */
     private final BooleanProperty animated = new SimpleBooleanProperty(this, "animated", true);
 
-    /** Label for the title. */
     private final Label titleLabel = new Label();
-
-    /** Arrow icon shown on the right of the header. */
     private final ImageView arrowIcon = new ImageView();
-
-    /** Container for child content (shown when expanded). */
-    private final VBox contentBox = new VBox();
-
-    /** Header container holding title and arrow. */
     private final HBox headerBox = new HBox();
-
-    /** Underline rectangle shown below the header. */
     private final Rectangle underline = new Rectangle();
 
-    /** Default constructor using default title and an empty VBox as content. */
     public OFxExpandablePane() {
-        this("Title", new VBox());
-    }
-
-    /**
-     * Constructs an expandable pane with specified title and content.
-     * @param title the header title.
-     * @param content the content node to show on expand.
-     */
-    public OFxExpandablePane(String title, Node content) {
-        setText(title);
-        contentBox.getChildren().add(content);
         initialize();
     }
 
-    /** Initializes all bindings, layout configurations, and event handlers. */
     private void initialize() {
         getStyleClass().add("expandable-list-section");
 
-        // Bind visual properties
         titleLabel.textProperty().bind(text);
         titleLabel.fontProperty().bind(font);
         titleLabel.getStyleClass().add("title-label");
         titleLabel.setMaxWidth(Double.MAX_VALUE);
 
-        // Arrow icon settings
         arrowIcon.fitWidthProperty().bind(arrowIconWidth);
         arrowIcon.fitHeightProperty().bind(arrowIconHeight);
         arrowIcon.setPreserveRatio(true);
         arrowIcon.setSmooth(true);
-        arrowIcon.imageProperty().bind(arrowImage);
-        arrowIcon.setOpacity(0.8);
+        // REMOVE any binding like: arrowIcon.imageProperty().bind(arrowImage);
 
-        // Bind hover color logic for text and underline
+        Platform.runLater(() -> {
+            Image img = arrowImage.get();
+            if (img != null) {
+                arrowIcon.setImage(img);
+                System.out.println("Arrow Image set on ImageView: " + img);
+            } else {
+                System.out.println("Arrow Image was null on runLater.");
+            }
+        });
+
+
+// Also listen for any later changes
+        arrowImage.addListener((obs, oldImg, newImg) -> {
+            arrowIcon.setImage(newImg);
+            System.out.println("Arrow Image changed: " + newImg);
+        });
+
+        arrowIcon.setVisible(true);
+        arrowIcon.setManaged(true);
+        arrowIcon.setOpacity(1);
+
+        // Initialize immediately if non-null
+        if (arrowImage.get() != null) {
+            arrowIcon.setImage(arrowImage.get());
+        }
+        arrowIcon.setOpacity(0.8);
+        arrowIcon.setRotate(0);
+
         titleLabel.textFillProperty().bind(Bindings.createObjectBinding(() ->
                         headerBox.isHover() ? hoverColor.get() : textFill.get(),
                 headerBox.hoverProperty(), hoverColor, textFill));
@@ -158,7 +97,6 @@ public class OFxExpandablePane extends VBox {
                         headerBox.isHover() ? hoverColor.get() : textFill.get(),
                 headerBox.hoverProperty(), hoverColor, textFill));
 
-        // Arrow tint effect
         arrowIcon.effectProperty().bind(Bindings.createObjectBinding(() ->
                         new Blend(
                                 BlendMode.SRC_ATOP,
@@ -170,7 +108,6 @@ public class OFxExpandablePane extends VBox {
                 arrowIcon.fitWidthProperty(), arrowIcon.fitHeightProperty()
         ));
 
-        // Spacer between title and icon
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
 
@@ -178,15 +115,11 @@ public class OFxExpandablePane extends VBox {
         headerBox.setAlignment(Pos.CENTER_LEFT);
         headerBox.setPadding(new Insets(6, 8, 6, 8));
 
-        // Click event toggles expand state and rotates arrow
         headerBox.setOnMouseClicked(e -> {
             boolean willExpand = !isExpanded();
             setExpanded(willExpand);
-            if (isAnimated()) animateArrow(willExpand);
-            else arrowIcon.setRotate(willExpand ? 90 : 0);
         });
 
-        // Underline layout config
         underline.setHeight(1);
         underline.visibleProperty().bind(underlineVisible);
         underline.managedProperty().bind(underlineVisible);
@@ -194,32 +127,46 @@ public class OFxExpandablePane extends VBox {
 
         VBox underlineBox = new VBox(headerBox, underline);
 
-        // Bind content visibility to expanded state
-        contentBox.managedProperty().bind(expanded);
-        contentBox.visibleProperty().bind(expanded);
-        contentBox.setOpacity(1);
+        getChildren().add(underlineBox);
 
-        super.getChildren().addAll(underlineBox);
+        getChildren().addListener((ListChangeListener<Node>) change -> {
+            while (change.next()) {
+                if (change.wasAdded()) {
+                    for (Node node : change.getAddedSubList()) {
+                        if (node != underlineBox) {
+                            node.managedProperty().bind(expanded);
+                            node.visibleProperty().bind(expanded);
+                        }
+                    }
+                }
+            }
+        });
 
-        // Sync underline pseudo-class
+        expanded.addListener((obs, wasExpanded, isNowExpanded) -> {
+            if (isAnimated()) animateArrow(isNowExpanded);
+            else arrowIcon.setRotate(isNowExpanded ? 90 : 0);
+        });
+
         underlineVisible.addListener((obs, oldVal, newVal) -> pseudoClassStateChanged(UNDERLINE_VISIBLE, newVal));
         pseudoClassStateChanged(UNDERLINE_VISIBLE, underlineVisible.get());
+
+        System.out.println("Arrow Icon Debug:");
+        System.out.println("  Visible: " + arrowIcon.isVisible());
+        System.out.println("  Managed: " + arrowIcon.isManaged());
+        System.out.println("  Width: " + arrowIcon.getFitWidth());
+        System.out.println("  Height: " + arrowIcon.getFitHeight());
+        System.out.println("  Bounds: " + arrowIcon.getBoundsInParent());
+        System.out.println("  Image: " + arrowIcon.getImage());
+
+        arrowIcon.setStyle("-fx-border-color: red; -fx-border-width: 1px;");
     }
 
-    @Override
-    public ObservableList<Node> getChildren() {
-        return contentBox.getChildren();
-    }
-
-    /** Animates the arrow icon on expand/collapse. */
     private void animateArrow(boolean expand) {
         RotateTransition rotate = new RotateTransition(Duration.millis(100), arrowIcon);
         rotate.setFromAngle(expand ? 0 : 90);
         rotate.setToAngle(expand ? 90 : 0);
         rotate.play();
     }
-
-    // ----- Public API Getters/Setters and Properties (omitted comments for brevity) -----
 
     public void expand() { setExpanded(true); }
     public void collapse() { setExpanded(false); }
@@ -257,4 +204,3 @@ public class OFxExpandablePane extends VBox {
     public void setAnimated(boolean value) { animated.set(value); }
     public BooleanProperty animatedProperty() { return animated; }
 }
-

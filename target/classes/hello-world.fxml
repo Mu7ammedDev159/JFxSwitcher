@@ -3,17 +3,27 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.paint.Color?>
+<?import org.onyxfx.graphics.controls.OFxAvatarView?>
 <?import org.onyxfx.graphics.layout.OFxExpandablePane?>
 
-<HBox alignment="TOP_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="55.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<HBox alignment="TOP_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="55.0" prefWidth="200.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <OFxExpandablePane animated="false" arrowIconHeight="13.0" arrowIconWidth="13.0" arrowTint="#545252" prefHeight="55.0" prefWidth="136.0" text="fdsfsdfsdf" textFill="BLACK">
+
+      <HBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS" />
+      <OFxExpandablePane arrowIconHeight="13.0" arrowIconWidth="13.0" prefHeight="55.0" prefWidth="244.0">
          <arrowImage>
             <Image url="@../../../../Chatcord/src/main/resources/images/icons/icons8-forward-50.png" />
          </arrowImage>
       </OFxExpandablePane>
-
-      <HBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS" />
+      <OFxAvatarView fitHeight="30.0" fitWidth="30.0">
+         <backgroundColor>
+            <Color red="0.5504792332649231" green="0.6578947305679321" blue="0.37768030166625977" />
+         </backgroundColor>
+         <image>
+            <Image url="@../../../../Chatcord/src/main/resources/images/icons/community.png" />
+         </image>
+      </OFxAvatarView>
       <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
          <ImageView fitHeight="12.0" fitWidth="12.0" pickOnBounds="true" preserveRatio="true">
          </ImageView>
