@@ -71,11 +71,32 @@ public class OFxExpandablePane extends VBox {
             }
         });
 
-        arrowImage.addListener((obs, old, img) -> {
-            arrowIcon.setImage(img);
-            System.out.println("🖼 arrowImage set: " + (img != null ? img.getUrl() : "null"));
-            if (img != null && img.getException() != null) {
-                img.getException().printStackTrace();
+        arrowImage.addListener((obs, oldImg, newImg) -> {
+            if (newImg != null) {
+                String url = newImg.getUrl();
+                System.out.println("🧪 FXML Image URL: " + url);
+
+                try {
+                    // If SceneBuilder used @-notation, fix it
+                    if (url.startsWith("@")) {
+                        File fxmlDir = new File(System.getProperty("user.dir")); // assume root project dir
+                        File actualFile = new File(fxmlDir, url.substring(1).replace("/", File.separator));
+                        if (actualFile.exists()) {
+                            Image fixedImage = new Image(actualFile.toURI().toString());
+                            arrowIcon.setImage(fixedImage);
+                            System.out.println("✔ Loaded fixed image from file: " + actualFile.getAbsolutePath());
+                        } else {
+                            System.err.println("❌ Fixed path not found: " + actualFile.getAbsolutePath());
+                        }
+                    } else {
+                        // Try default way (e.g., full file:/)
+                        arrowIcon.setImage(newImg);
+                        System.out.println("✔ Loaded normal image: " + url);
+                    }
+                } catch (Exception e) {
+                    System.err.println("❌ Failed to fix image path: " + url);
+                    e.printStackTrace();
+                }
             }
         });
 

@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.layout.HBox?>
 <?import org.onyxfx.graphics.layout.OFxExpandablePane?>
 
 <HBox alignment="TOP_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="55.0" prefWidth="200.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <OFxExpandablePane prefHeight="55.0" prefWidth="241.0" />
+      <OFxExpandablePane arrowIconHeight="13.0" arrowIconWidth="13.0" arrowTint="#ffffff00" prefHeight="55.0" prefWidth="752.0">
+         <arrowImage>
+            <Image url="@icons/forward-50.png" />
+         </arrowImage>
+      </OFxExpandablePane>
    </children>
 </HBox>
