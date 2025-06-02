@@ -1,15 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.image.Image?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.layout.HBox?>
-<?import org.onyxfx.graphics.layout.OFxExpandablePane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
 
-<HBox alignment="TOP_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="55.0" prefWidth="200.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<HBox alignment="TOP_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="72.0" prefWidth="235.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <OFxExpandablePane arrowIconHeight="13.0" arrowIconWidth="13.0" arrowTint="#ffffff00" prefHeight="55.0" prefWidth="752.0">
-         <arrowImage>
-            <Image url="@icons/forward-50.png" />
-         </arrowImage>
-      </OFxExpandablePane>
+      <VBox prefHeight="200.0" prefWidth="100.0" />
+      <Pane prefHeight="72.0" prefWidth="386.0">
+         <HBox.margin>
+            <Insets />
+         </HBox.margin>
+         <padding>
+            <Insets right="10.0" top="10.0" />
+         </padding>
+      </Pane>
    </children>
 </HBox>
