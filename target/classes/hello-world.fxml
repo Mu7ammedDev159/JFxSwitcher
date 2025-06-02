@@ -1,20 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import org.onyxfx.graphics.controls.OFxAvatarView?>
 
-<HBox alignment="TOP_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="72.0" prefWidth="235.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="438.0" prefWidth="593.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <VBox prefHeight="200.0" prefWidth="100.0" />
-      <Pane prefHeight="72.0" prefWidth="386.0">
-         <HBox.margin>
-            <Insets />
-         </HBox.margin>
-         <padding>
-            <Insets right="10.0" top="10.0" />
-         </padding>
-      </Pane>
+      <VBox alignment="CENTER">
+         <children>
+            <OFxAvatarView alignment="TOP_LEFT" fitHeight="28.0" fitWidth="29.0" size="50.0" statusVisible="true">
+               <defaultImage>
+                  <Image url="@../../../../Chatcord/src/main/resources/images/icons/Asset%201.png" />
+               </defaultImage>
+               <backgroundColor>
+                  <Color red="0.22612085938453674" green="0.3168047368526459" blue="0.3815789520740509" />
+               </backgroundColor>
+            </OFxAvatarView>
+         </children>
+      </VBox>
    </children>
 </HBox>

@@ -10,13 +10,13 @@
    <children>
       <VBox alignment="CENTER">
          <children>
-            <OFxAvatarView alignment="TOP_LEFT" fitHeight="28.0" fitWidth="29.0" size="50.0" statusVisible="true">
+            <OFxAvatarView alignment="TOP_LEFT" fitHeight="28.0" fitWidth="29.0" size="60.0" statusVisible="true">
+               <statusRingColor>
+                  <Color />
+               </statusRingColor>
                <defaultImage>
-                  <Image url="@../../../../Chatcord/src/main/resources/images/icons/Asset%201.png" />
+                  <Image url="@../../../../../images/icons/Asset%201.png" />
                </defaultImage>
-               <backgroundColor>
-                  <Color red="0.22612085938453674" green="0.3168047368526459" blue="0.3815789520740509" />
-               </backgroundColor>
             </OFxAvatarView>
          </children>
       </VBox>
